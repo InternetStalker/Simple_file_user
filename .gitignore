@@ -1,0 +1,9 @@
+/include/
+/lib/
+/Scripts/
+/simple_file_user.egg-info/
+/simple_file_user/__pycache__/
+/dist/
+/archive/
+/.vscode/
+pyvenv.cfg
