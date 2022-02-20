@@ -25,10 +25,10 @@ Output:
 Importing
 ---------
 
-`import simple_file_user # Importing all, but you can call package's facilities only with the prefix simple_file_user.  
-from simple_file_user import * # Importing all from the package.  
-from simple_file_user import name_of_function # Importing certain function or functions.  
-from simple_file_user.File import File # Importing File class.  
+`import simple_file_user # Importing all, but you can call package's facilities only with the prefix simple_file_user.
+from simple_file_user import * # Importing all from the package.
+from simple_file_user import name_of_function # Importing certain function or functions.
+from simple_file_user.File import File # Importing File class.
 `
 
 Functions overview
@@ -42,6 +42,8 @@ This is list of functions included this package:
 *   `remove(path: str) -> None` ---- Remove file.
 *   `rename(path: str, new_name: str) -> None` ---- Rename file (path).
 *   `getSize(path: str) -> int` ---- Return size of file (path) in bytes.
+*   `getName(path: str) -> str` ---- Return name of file.
+*   `getExtension(path: str) -> str` ---- Return extension of file.
 *   `writeToFile(path: str, encoding: str = "utf-8")` ---- It is decorator. Return function that write to file (path) returning of decorated callable object.
 *   `addToFile(path: str, encoding: str = "utf-8")` ---- It is decorator. Return function that add to file (path) returning of decorated callable object.
 
@@ -67,6 +69,8 @@ There is a file class in this package. It is situated in module named File. It h
 *   `getSize() -> int` ---- Return size of file in bytes.
 *   `getName() -> str` ---- Return name of file.
 *   `getEncoding() -> str` ---- Return encoding of file.
+*   `getPath() -> str` ---- Return path to file.
+*   `getExtension() -> str` ---- Return extension of file.
 *   `remove() -> None` ---- Remove file and destroy object.
 *   `split(key: str) -> list` ---- Return splited file's content.
 *   `rsplit(key: str) -> list` ---- Return reversed splited file's content.

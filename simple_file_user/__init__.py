@@ -9,22 +9,24 @@ This is list of functions included this package:
     remove(path: str) -> None ---- Remove file (path).
     rename(path: str, new_name: str) -> None ---- Change name of file (path) to new_name.
     getSize(path: str) -> int ---- Return size of file (path) in bytes.
+    getName(path: str) -> str ---- Return name of file.
+    getExtension(path: str) -> str ---- Return extension of file.
     writeToFile(path: str, encoding: str = "utf-8") ---- It is decorator. Return function that write to file (path) returning of decorated callable object.
     addToFile(path: str, encoding: str = "utf-8") ---- It is decorator. Return function that add to file (path) returning of decorated callable object.
 
-Copyright (c) 2022 Vennetskiy Andrew Dmitrievich <internetstalcker@yandex.ru>
+Copyright (c) 2022 InternetStalker <internetstalcker@yandex.ru>
 """
 import os
 from .File import *
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 __all__ = ['File']
 
 
 
 
 def read(path: str, encoding: str = "utf-8", binary_mode: bool = False) -> str:
-    r"""
+    """
     read(path: str, encoding: str = "utf-8", binary_mode: bool = False) -> str ---- Read file and return it's content. 
     If binary mode is True, open file in binary mode. If binary_mode is True, you don't need to pass encoding, but it 
     won't raise exception like read method of builtin file object if you've done it. If file doesn't exist raise 
@@ -76,20 +78,33 @@ def rename(path: str, new_name: str) -> None:
 
 def getSize(path: str) -> int:
     """
-    getSize(path: str) -> int ---- Returns size of file (path) in bytes. If file doesn't exist, raise FileNotFoundError.
+    getSize(path: str) -> int ---- Return size of file (path) in bytes. If file doesn't exist, raise FileNotFoundError.
     """
     return os.path.getsize(path)
 
+
+def getName(path: str) -> str:
+    """
+    getName(path: str) -> str ---- Return name of file.
+    """
+    return path.rsplit("/")[0]
+
+
+def getExtension(path: str) -> str:
+    """
+    getExtension(path: str) -> str ---- Return extension of file.
+    """
+    return path.rsplit(".")[0]
 
 def writeToFile(path: str, encoding: str = "utf-8"):
     """
     writeToFile(path: str, encoding: str = "utf-8") ---- It is decorator. Return function that write to file (path) returning of decorated callable object.
     """
     def wrapper(function):
-        def ar(*args, **kwargs):
-            file = File(path = path, encoding = encoding, new = True)
-            file.write(function(*args, **kwargs), "w")
-        return ar
+        def arguments(*args, **kwargs):
+            with open(file = path, mode = "w", encoding = encoding) as file:
+                file.write(function(*args, **kwargs))
+        return arguments
     return wrapper
 
 def addToFile(path: str, encoding: str = "utf-8"):
@@ -97,8 +112,8 @@ def addToFile(path: str, encoding: str = "utf-8"):
     addToFile(path: str, encoding: str = "utf-8") ---- It is decorator. Return function that add to file (path) returning of decorated callable object.
     """
     def wrapper(function):
-        def ar(*args, **kwargs):
-            file = File(path = path, encoding = encoding, new = False)
-            file.write(function(*args, **kwargs), "a")
-        return ar
+        def arguments(*args, **kwargs):
+            with open(file = path, mode = "a", encoding = encoding) as file:
+                file.write(function(*args, **kwargs))
+        return arguments
     return wrapper

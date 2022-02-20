@@ -10,7 +10,7 @@ class File:
         if new:
             self.write("", "w")
         elif not os.path.isfile(path):
-            raise Exception("File doesn't exist!")
+            raise FileNotFoundError("File doesn't exist!")
 
 
     def write(self, content: str, mod: str) -> int:
@@ -40,17 +40,20 @@ class File:
     def rename(self, new_name: str) -> None:
         os.rename(self.__path, new_name)
         len_ = len(self.__path.split('/'))
-        self.__path = new_name if len_ == 1 else self.__path.rsplit('/', maxsplit = 1)[0] + '/' + new_name
+        if len_ == 1:
+            self.__path = new_name
+        else:
+            self.__path = self.__path.rsplit('/', maxsplit = 1)[0] + '/' + new_name
 
 
     def getName(self) -> str:
-        path = self.__path.split("/")
-        return path[len(path) - 1]
+        return self.__path.rsplit("/")[0]
 
+    def getExtension(self) -> str:
+        return self.__path.rsplit(".")[0]
 
     def getPath(self) -> str:
         return self.__path
-
 
     def getEncoding(self) -> str:
         return self.__encoding
@@ -71,7 +74,7 @@ class File:
     
     def rsplit(self, key: str) -> list:
         content = self.read()
-        return list(reversed(content.split(key)))
+        return content.rsplit(key)
 
 
     def __contains__(self, key) -> bool:

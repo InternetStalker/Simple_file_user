@@ -32,6 +32,8 @@ This is list of functions included this package:
  <li><code>remove(path: str) -> None</code> ---- Remove file.</li>
  <li><code>rename(path: str, new_name: str) -> None</code> ---- Rename file (path).</li>
  <li><code>getSize(path: str) -> int</code> ---- Return size of file (path) in bytes.</li>
+ <li><code>getName(path: str) -> str</code> ---- Return name of file.</li>
+ <li><code>getExtension(path: str) -> str</code> ---- Return extension of file.</li>
  <li><code>writeToFile(path: str, encoding: str = "utf-8")</code> ---- It is decorator. Return function that write to file (path) returning of decorated callable object.</li>
  <li><code>addToFile(path: str, encoding: str = "utf-8")</code> ---- It is decorator. Return function that add to file (path) returning of decorated callable object.</li>
 </ul>
@@ -51,6 +53,8 @@ There is a file class in this package. It is situated in module named File. It h
  <li><code>getSize() -> int</code> ---- Return size of file in bytes.</li>
  <li><code>getName() -> str</code> ---- Return name of file.</li>
  <li><code>getEncoding() -> str</code> ---- Return encoding of file.</li>
+ <li><code>getPath() -> str</code> ---- Return path to file.</li>
+ <li><code>getExtension() -> str</code> ---- Return extension of file.</li>
  <li><code>remove() -> None</code> ---- Remove file and destroy object.</li>
  <li><code>split(key: str) -> list</code> ---- Return splited file's content.</li>
  <li><code>rsplit(key: str) -> list</code> ---- Return reversed splited file's content.</li>
