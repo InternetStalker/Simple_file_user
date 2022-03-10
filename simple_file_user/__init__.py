@@ -8,8 +8,8 @@ This is list of functions included this package:
     add(path: str, content: str, encoding = "utf-8") -> int ---- Add content into file. Return amount of written symbols.
     remove(path: str) -> None ---- Remove file (path).
     rename(path: str, new_name: str) -> None ---- Change name of file (path) to new_name.
+    recode(path: str, oldEncoding: str, newEncoding: str) -> None ---- Recode file (path) from oldEncoding to newEncoding.
     getSize(path: str) -> int ---- Return size of file (path) in bytes.
-    getName(path: str) -> str ---- Return name of file.
     getExtension(path: str) -> str ---- Return extension of file.
     writeToFile(path: str, encoding: str = "utf-8") ---- It is decorator. Return function that write to file (path) returning of decorated callable object.
     addToFile(path: str, encoding: str = "utf-8") ---- It is decorator. Return function that add to file (path) returning of decorated callable object.
@@ -19,7 +19,7 @@ Copyright (c) 2022 InternetStalker <internetstalcker@yandex.ru>
 import os
 from .File import *
 
-__version__ = "0.1.2"
+__version__ = "0.2"
 __all__ = ['File']
 
 
@@ -40,7 +40,6 @@ def read(path: str, encoding: str = "utf-8", binary_mode: bool = False) -> str:
             content = file.read()
     return content
 
-
 def rewrite(path: str, content: str, encoding: str = "utf-8") -> int:
     """
     rewrite(path: str, content: str, encoding: str = "utf-8") -> int ---- Clears file and write content into it. 
@@ -49,7 +48,6 @@ def rewrite(path: str, content: str, encoding: str = "utf-8") -> int:
     with open(path, "w", encoding = encoding) as file:
         size = file.write(content)
     return size
-
 
 def add(path: str, content: str, encoding: str = "utf-8") -> int:
     """
@@ -67,7 +65,6 @@ def remove(path: str) -> None:
     """
     os.remove(path)
 
-
 def rename(path: str, new_name: str) -> None:
     """
     rename(path: str, new_name: str) -> None ---- Change name of file (path) to new_name. If file doesn't exist, raise
@@ -82,19 +79,24 @@ def getSize(path: str) -> int:
     """
     return os.path.getsize(path)
 
-
-def getName(path: str) -> str:
-    """
-    getName(path: str) -> str ---- Return name of file.
-    """
-    return path.rsplit("/")[0]
-
-
 def getExtension(path: str) -> str:
     """
     getExtension(path: str) -> str ---- Return extension of file.
     """
     return path.rsplit(".")[0]
+
+
+def recode(path: str, oldEncoding: str, newEncoding: str) -> None:
+    """
+    recode(path: str, oldEncoding: str, newEncoding: str) -> None ---- Recode file (path) from oldEncoding to newEncoding.
+    """
+    codecs.lookup(oldEncoding)
+    codecs.lookup(newEncoding)
+    with open(path, "r", encoding = oldEncoding) as file:
+        content = file.read()
+    with open(path, "w", encoding = newEncoding) as file:
+        file.write(content)
+
 
 def writeToFile(path: str, encoding: str = "utf-8"):
     """
