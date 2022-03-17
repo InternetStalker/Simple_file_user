@@ -47,8 +47,7 @@ If you want to learn more about them use `help(name_of_function)`. So you will g
 
 File class
 ----------
-
-`File(path: str, encoding: str = "utf-8", new: bool = False, binary_mode: bool = False)` File object normalises and makes absolute path before it saves it. If new is true it creates new file. Already existing file on this path clears. If binary is true file opens like binary, so read method will return bytes. Also binary file doesn't have encoding, so you'll get Exception if you try to get encoding of this file.
+d makes absolute path before it saves it. If new is true it creates new file. Already existing file on this path clears. If binary is true file opens like binary, so read method will return bytes. Also binary file doesn't have encoding, so you'll get Exception if you try to get encoding of this file.
 
 ### Methods overview
 
@@ -63,6 +62,7 @@ File class
 *   `getNameWithoutExt() -> str` ---- Return name without extension.
 *   `getEncoding() -> str` ---- Return encoding of file.
 *   `getPath() -> str` ---- Return path to file.
+`File(path: str, encoding: str = "utf-8", new: bool = False, binary_mode: bool = False)` File object normalises an
 *   `getPathWithoutName() -> str` ---- Return path without name.
 *   `getExtension() -> str` ---- Return extension of file.
 *   `isBinary() -> bool` ---- Return is file binary.
