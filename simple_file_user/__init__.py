@@ -19,7 +19,7 @@ Copyright (c) 2022 InternetStalker <internetstalcker@yandex.ru>
 import os
 from .File import *
 
-__version__ = "0.2"
+__version__ = "0.2.1"
 __all__ = ['File']
 
 

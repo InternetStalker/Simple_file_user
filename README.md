@@ -25,11 +25,7 @@ Output:
 Importing
 ---------
 
-`import simple_file_user # Importing all, but you can call package's facilities only with the prefix simple_file_user.
-from simple_file_user import * # Importing all from the package.
-from simple_file_user import name_of_function # Importing certain function or functions.
-from simple_file_user.File import File # Importing File class.
-`
+`import simple_file_user # Import all, but you can call package's facilities only with the prefix simple_file_user.   from simple_file_user import * # Import all from the package.   from simple_file_user import name_of_function # Import certain function or functions.   from simple_file_user.File import File # Import File class.   `
 
 Functions overview
 ------------------
@@ -42,7 +38,7 @@ This is list of functions included this package:
 *   `remove(path: str) -> None` ---- Remove file.
 *   `rename(path: str, new_name: str) -> None` ---- Rename file (path).
 *   `getSize(path: str) -> int` ---- Return size of file (path) in bytes.
-*   `getName(path: str) -> str` ---- Return name of file.
+*   `recode(path: str, oldEncoding: str, newEncoding: str) -> None` ---- Recode file (path) from oldEncoding to newEncoding.
 *   `getExtension(path: str) -> str` ---- Return extension of file.
 *   `writeToFile(path: str, encoding: str = "utf-8")` ---- It is decorator. Return function that write to file (path) returning of decorated callable object.
 *   `addToFile(path: str, encoding: str = "utf-8")` ---- It is decorator. Return function that add to file (path) returning of decorated callable object.
@@ -52,11 +48,7 @@ If you want to learn more about them use `help(name_of_function)`. So you will g
 File class
 ----------
 
-There is a file class in this package. It is situated in module named File. It has two private fields. They are path and encoding. There are methods `getPath()` and `getEncoding()` to get value from these fields.
-
-### Creating file object.
-
-`File(path: str, , encoding: str = "utf-8", new: bool = False)`
+`File(path: str, encoding: str = "utf-8", new: bool = False, binary_mode: bool = False)` File object normalises and makes absolute path before it saves it. If new is true it creates new file. Already existing file on this path clears. If binary is true file opens like binary, so read method will return bytes. Also binary file doesn't have encoding, so you'll get Exception if you try to get encoding of this file.
 
 ### Methods overview
 
@@ -68,13 +60,20 @@ There is a file class in this package. It is situated in module named File. It h
 *   `rename(new_name: str) -> None` ---- Rename file.
 *   `getSize() -> int` ---- Return size of file in bytes.
 *   `getName() -> str` ---- Return name of file.
+*   `getNameWithoutExt() -> str` ---- Return name without extension.
 *   `getEncoding() -> str` ---- Return encoding of file.
 *   `getPath() -> str` ---- Return path to file.
+*   `getPathWithoutName() -> str` ---- Return path without name.
 *   `getExtension() -> str` ---- Return extension of file.
+*   `isBinary() -> bool` ---- Return is file binary.
+*   `changeExtension(newExtension: str) -> None` ---- Change extension of file.
+*   `changeEncoding(newEncoding: str) -> None` ----
+*   `recode(newEncoding: str) -> None` ---- Recode file to newEncoding
 *   `remove() -> None` ---- Remove file and destroy object.
+*   `readLine(number_of_line: int) -> str` ---- Return line from file (File splits by \\n symbol).
 *   `split(key: str) -> list` ---- Return splited file's content.
 *   `rsplit(key: str) -> list` ---- Return reversed splited file's content.
 
 ### Compairing File objects.
 
-You can compair File objects. If you try to compair File object and something else, you will get a TypeError. Compairing operators `==` and `!=` compair content of given Files. Others (`< > <= >=`) compair their size.
+You can compair File objects between of them. If you try to compair File object and something else, you will get a TypeError. Compairing operators `==` and `!=` compair content of given Files. Others (`< > <= >=`) compair their size.

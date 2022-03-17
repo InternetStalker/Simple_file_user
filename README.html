@@ -18,10 +18,10 @@ Output:<br>
 <code>Something</code>
 <h2>Importing</h2>
 <code>
- import simple_file_user # Importing all, but you can call package's facilities only with the prefix simple_file_user.<br>
- from simple_file_user import * # Importing all from the package.<br>
- from simple_file_user import name_of_function # Importing certain function or functions.<br>
- from simple_file_user.File import File # Importing File class.<br>
+ import simple_file_user # Import all, but you can call package's facilities only with the prefix simple_file_user.<br>
+ from simple_file_user import * # Import all from the package.<br>
+ from simple_file_user import name_of_function # Import certain function or functions.<br>
+ from simple_file_user.File import File # Import File class.<br>
 </code>
 <h2>Functions overview</h2>
 This is list of functions included this package:
@@ -32,16 +32,17 @@ This is list of functions included this package:
  <li><code>remove(path: str) -> None</code> ---- Remove file.</li>
  <li><code>rename(path: str, new_name: str) -> None</code> ---- Rename file (path).</li>
  <li><code>getSize(path: str) -> int</code> ---- Return size of file (path) in bytes.</li>
- <li><code>getName(path: str) -> str</code> ---- Return name of file.</li>
+ <li><code>recode(path: str, oldEncoding: str, newEncoding: str) -> None</code> ---- Recode file (path) from oldEncoding to newEncoding.</li>
  <li><code>getExtension(path: str) -> str</code> ---- Return extension of file.</li>
  <li><code>writeToFile(path: str, encoding: str = "utf-8")</code> ---- It is decorator. Return function that write to file (path) returning of decorated callable object.</li>
  <li><code>addToFile(path: str, encoding: str = "utf-8")</code> ---- It is decorator. Return function that add to file (path) returning of decorated callable object.</li>
 </ul>
 If you want to learn more about them use <code>help(name_of_function)</code>. So you will get a more extended description.
 <h2>File class</h2>
-There is a file class in this package. It is situated in module named File. It has two private fields. They are path and encoding. There are methods <code>getPath()</code> and <code>getEncoding()</code> to get value from these fields.
-<h3>Creating file object.</h3>
-<code>File(path: str, , encoding: str = "utf-8", new: bool = False)</code>
+<code>File(path: str, encoding: str = "utf-8", new: bool = False, binary_mode: bool = False)</code>
+File object normalises and makes absolute path before it saves it. If new is true it creates new file. Already existing file on this path clears.
+If binary is true file opens like binary, so read method will return bytes. Also binary file doesn't have encoding,
+so you'll get Exception if you try to get encoding of this file.
 <h3>Methods overview</h3>
 <ul>
  <li><code>read() -> str</code> ---- Read file and return it's content.</li>
@@ -52,13 +53,20 @@ There is a file class in this package. It is situated in module named File. It h
  <li><code>rename(new_name: str) -> None</code> ---- Rename file.</li>
  <li><code>getSize() -> int</code> ---- Return size of file in bytes.</li>
  <li><code>getName() -> str</code> ---- Return name of file.</li>
+ <li><code>getNameWithoutExt() -> str</code> ----  Return name without extension.</li>
  <li><code>getEncoding() -> str</code> ---- Return encoding of file.</li>
  <li><code>getPath() -> str</code> ---- Return path to file.</li>
+ <li><code>getPathWithoutName() -> str</code> ---- Return path without name.</li>
  <li><code>getExtension() -> str</code> ---- Return extension of file.</li>
+ <li><code>isBinary() -> bool</code> ---- Return is file binary.</li>
+ <li><code>changeExtension(newExtension: str) -> None</code> ---- Change extension of file.</li>
+ <li><code>changeEncoding(newEncoding: str) -> None</code> ---- </li>
+ <li><code>recode(newEncoding: str) -> None</code> ---- Recode file to newEncoding</li>
  <li><code>remove() -> None</code> ---- Remove file and destroy object.</li>
+ <li><code>readLine(number_of_line: int) -> str</code> ---- Return line from file (File splits by \n symbol).</li>
  <li><code>split(key: str) -> list</code> ---- Return splited file's content.</li>
  <li><code>rsplit(key: str) -> list</code> ---- Return reversed splited file's content.</li>
 </ul>
 <h3>Compairing File objects.</h3>
-You can compair File objects. If you try to compair File object and something else, you will get a TypeError. 
+You can compair File objects between of them. If you try to compair File object and something else, you will get a TypeError. 
 Compairing operators <code>==</code> and <code>!=</code> compair content of given Files. Others (<code>< > <= >=</code>) compair their size.

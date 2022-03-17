@@ -4,10 +4,9 @@
 import os, codecs
 
 class File: 
-
     def __init__(self, path: str, encoding: str = "utf-8", new: bool = False, binary: bool = False) -> None:
         self.__path = os.path.abspath(path)
-        self.binary = binary
+        self.__binary = binary
 
         if not binary:
             encoding = encoding.replace("-", "_")
@@ -22,7 +21,7 @@ class File:
 
 
     def add(self, content: str) -> int:
-        if self.binary:
+        if self.__binary:
             if not isinstance(content, bytes):
                 content = bytes(content)
             with open(self.__path, "ba") as file:
@@ -32,7 +31,7 @@ class File:
                 return file.write(content)
 
     def rewrite(self, content: str) -> int:
-        if self.binary:
+        if self.__binary:
             if not isinstance(content, bytes):
                 content = bytes(content)
             with open(self.__path, "bw") as file:
@@ -48,7 +47,7 @@ class File:
 
 
     def read(self) -> str:
-        if self.binary:
+        if self.__binary:
             with open(self.__path, "br") as file:
                 return str(file.read())
         else:
@@ -58,11 +57,7 @@ class File:
 
     def rename(self, new_name: str) -> None:
         os.rename(self.__path, new_name)
-        len_ = len(self.__path.split('/'))
-        if len_ == 1:
-            self.__path = new_name
-        else:
-            self.__path = os.path.join(self.__path.rsplit('/', maxsplit = 1)[1], new_name)
+        self.__path = os.path.join(self.getPathWithoutName(), new_name)
 
     def changeExtension(self, newExtension: str) -> None:
         if not newExtension.startswith("."):
@@ -104,12 +99,15 @@ class File:
         return os.path.split(self.__path)[0]
 
     def getEncoding(self) -> str:
-        if self.binary:
+        if self.__binary:
             raise Exception("Binary file doesn't have encoding.")
         return self.__encoding
 
     def getSize(self) -> int:
         return os.path.getsize(self.__path)
+
+    def isBinary(self) -> bool:
+        return self.__binary
 
 
     def remove(self) -> None:
@@ -135,39 +133,41 @@ class File:
 
 
     def __eq__(self, __o) -> bool:
-        if not isinstance(__o, File): raise TypeError("Can compare only File objects.")
-        with open(self.__path, "r", encoding = self.__encoding) as file_1, open(__o.getPath(), "r", encoding = __o.getEncoding()) as file_2:
-            file_1_content = file_1.read()
-            file_2_content = file_2.read()
-            return file_1_content == file_2_content
+        if not isinstance(__o, File):
+            raise TypeError("Can compare only File objects.")
+        with open(self.__path, "r", encoding = self.getEncoding()) as file:
+            thisFileContent = file.read()
+        with open(__o.getPath(), "r", encoding = __o.getEncoding()) as file:
+            anotherFileContent = file.read()
+        return thisFileContent == anotherFileContent
 
     def __ne__(self, __o: object) -> bool:
-        if not isinstance(__o, File): raise TypeError("Can compare only File objects.")
-        with open(self.__path, "r", encoding = self.__encoding) as file_1, open(__o.getPath(), "r", encoding = __o.getEncoding()) as file_2:
-            file_1_content = file_1.read()
-            file_2_content = file_2.read()
-            return file_1_content != file_2_content
+        return not self == __o
 
     def __lt__(self, __o: object) -> bool:
-        if not isinstance(__o, File): raise TypeError("Can compare only File objects.")
+        if not isinstance(__o, File):
+            raise TypeError("Can compare only File objects.")
         size_1 = self.getSize()
         size_2 = __o.getSize()
         return size_1 < size_2
 
     def __gt__(self, __o: object) -> bool:
-        if not isinstance(__o, File): raise TypeError("Can compare only File objects.")
+        if not isinstance(__o, File):
+            raise TypeError("Can compare only File objects.")
         size_1 = self.getSize()
         size_2 = __o.getSize()
         return size_1 > size_2
 
     def __le__(self, __o: object) -> bool:
-        if not isinstance(__o, File): raise TypeError("Can compare only File objects.")
+        if not isinstance(__o, File):
+            raise TypeError("Can compare only File objects.")
         size_1 = self.getSize()
         size_2 = __o.getSize()
         return size_1 <= size_2
 
     def __ge__(self, __o: object) -> bool:
-        if not isinstance(__o, File): raise TypeError("Can compare only File objects.")
+        if not isinstance(__o, File):
+            raise TypeError("Can compare only File objects.")
         size_1 = self.getSize()
         size_2 = __o.getSize()
         return size_1 >= size_2
